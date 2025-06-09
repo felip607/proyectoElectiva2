@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>Factura</title></head>
+<body>
+  <h1>Factura</h1>
+  <ul>
+    <% carrito.forEach(p => { %>
+      <li><%= p.nombre %> - <%= p.cantidad %> x $<%= p.precio %> = $<%= p.cantidad * p.precio %></li>
+    <% }) %>
+  </ul>
+  <h3>Total: $<%= total %></h3>
+</body>
+</html>

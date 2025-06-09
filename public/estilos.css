@@ -1,0 +1,251 @@
+/* === ESTILO GENERAL === */
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  margin: 0;
+  background-color: #f0f2f5;
+}
+
+/* === ESTILOS DE LOGIN === */
+.login-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f2f5; /* Fondo claro para la pantalla de login */
+}
+
+.login-container {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px; /* Establece un ancho máximo para el formulario */
+}
+
+.login-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333; /* Color oscuro para el título */
+}
+
+.login-container label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333; /* Color oscuro para los textos */
+}
+
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.login-container button:hover {
+  background-color: #0056b3;
+}
+
+.login-container p {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.login-container p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-container p a:hover {
+  text-decoration: underline;
+}
+
+/* === MENSAJE DE ERROR === */
+p[style="color: red;"] {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* === ESTILOS DE PRODUCTOS === */
+.productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.producto {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.producto img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.producto h3 {
+  margin: 10px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.producto p {
+  font-size: 16px;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.producto input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.producto button {
+  padding: 8px 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.producto button:hover {
+  background-color: #218838;
+}
+
+/* === MENSAJE === */
+.mensaje-exito {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  margin: 10px 0;
+  font-weight: bold;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  background: white;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+}
+/* === ESTILO DEL CARRITO === */
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  background: white;
+  border-collapse: collapse;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+}
+
+td {
+  font-size: 16px;
+}
+
+button {
+  padding: 8px 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+/* === Estilo de la sección vacía del carrito === */
+p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+}
+
+/* === Botón de volver y pagar === */
+a button {
+  margin-top: 20px;
+  background-color: #007bff;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+a button:hover {
+  background-color: #0056b3;
+}
+
+/* === Estilo de Total === */
+h3 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 20px;
+  color: #333;
+  font-weight: bold;
+}
+h1 {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-top: 10px;
+}
