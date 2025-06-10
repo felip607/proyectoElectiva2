@@ -27,26 +27,34 @@ export const generarFactura = async (req, res) => {
   doc.fontSize(20).text('Factura de compra', { align: 'center' });
   doc.moveDown(1);
 
-  doc.fontSize(12).text('Producto', { continued: true }).text('Precio', { align: 'right', continued: true });
-  doc.text('Cantidad', { align: 'right' });
+  // Encabezados de columna
+  const startY = doc.y;
+  doc.fontSize(12)
+    .text('Producto', 60, startY)
+    .text('Precio', 260, startY)
+    .text('Cantidad', 360, startY)
+    .text('Subtotal', 460, startY);
   doc.moveDown(0.5);
 
   doc.lineWidth(0.5).moveTo(50, doc.y).lineTo(550, doc.y).stroke();
-  doc.moveDown(1);
+  doc.moveDown(0.5);
 
   // Imprimir productos del carrito
+  let y = doc.y;
   items.forEach(p => {
     doc.fontSize(12)
-      .text(p.nombre, { continued: true })
-      .text(`$${p.precio.toFixed(2)}`, { align: 'right', continued: true })
-      .text(`${p.cantidad} x $${(p.precio * p.cantidad).toFixed(2)}`, { align: 'right' });
+      .text(p.nombre, 60, y)
+      .text(`$${p.precio.toFixed(2)}`, 260, y)
+      .text(`${p.cantidad}`, 360, y)
+      .text(`$${(p.precio * p.cantidad).toFixed(2)}`, 460, y);
+    y += 20;
   });
 
-  doc.moveDown(1);
-  doc.lineWidth(0.5).moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+  doc.moveDown(2);
+  doc.lineWidth(0.5).moveTo(50, y).lineTo(550, y).stroke();
   doc.moveDown(1);
 
-  doc.fontSize(14).text(`Total: $${total.toFixed(2)}`, { align: 'right' });
+  doc.fontSize(14).text(`Total: $${total.toFixed(2)}`, 400, doc.y, { align: 'right' });
 
   doc.end();
 
