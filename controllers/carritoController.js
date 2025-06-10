@@ -1,27 +1,41 @@
-export const mostrarCarrito = (req, res) => {
-  const carrito = req.session.carrito || [];
-  const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
-  res.render('carrito', { carrito, total });
+import Carrito from '../models/Carrito.js';
+import Producto from '../models/Producto.js';
+
+export const mostrarCarrito = async (req, res) => {
+  const usuarioId = req.session.usuario.id;
+  let carrito = await Carrito.findOne({ usuario: usuarioId }).populate('items.producto');
+  if (!carrito) carrito = { items: [] };
+  const total = carrito.items.reduce((acc, item) => acc + item.producto.precio * item.cantidad, 0);
+  res.render('carrito', { carrito: carrito.items, total });
 };
 
-export const agregarAlCarrito = (req, res) => {
-  const { id, nombre, precio, cantidad } = req.body;
-  const producto = { id, nombre, precio: parseFloat(precio), cantidad: parseInt(cantidad) };
+export const agregarAlCarrito = async (req, res) => {
+  const usuarioId = req.session.usuario.id;
+  const { id, cantidad } = req.body;
+  const producto = await Producto.findById(id);
+  if (!producto) return res.status(404).send('Producto no encontrado');
 
-  req.session.carrito = req.session.carrito || [];
-  const index = req.session.carrito.findIndex(p => p.id === id);
-  if (index >= 0) {
-    req.session.carrito[index].cantidad += producto.cantidad;
+  let carrito = await Carrito.findOne({ usuario: usuarioId });
+  if (!carrito) carrito = new Carrito({ usuario: usuarioId, items: [] });
+
+  const idx = carrito.items.findIndex(item => item.producto.equals(id));
+  if (idx >= 0) {
+    carrito.items[idx].cantidad += parseInt(cantidad);
   } else {
-    req.session.carrito.push(producto);
-
+    carrito.items.push({ producto: id, cantidad: parseInt(cantidad) });
   }
-
+  await carrito.save();
+  req.session.mensaje = `${producto.nombre} agregado al carrito`;
   res.redirect('/productos');
 };
 
-export const quitarDelCarrito = (req, res) => {
-  const { id } = req.params;
-  req.session.carrito = req.session.carrito.filter(p => p.id !== id);
+export const quitarDelCarrito = async (req, res) => {
+  const usuarioId = req.session.usuario.id;
+  const { id } = req.body;
+  let carrito = await Carrito.findOne({ usuario: usuarioId });
+  if (carrito) {
+    carrito.items = carrito.items.filter(item => !item.producto.equals(id));
+    await carrito.save();
+  }
   res.redirect('/carrito');
 };

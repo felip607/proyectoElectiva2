@@ -1,12 +1,11 @@
 import Producto from '../models/Producto.js';
 
 export const obtenerProductos = (req, res, mensaje = null) => {
-  // Suponiendo que tienes acceso al modelo de productos
   Producto.find()
     .then(productos => {
       res.render('productos', {
         productos,
-        usuario: req.session.usuario,
+        usuario: req.session.usuario ? req.session.usuario.nombre : '',
         mensaje
       });
     })

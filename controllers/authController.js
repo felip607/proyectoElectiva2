@@ -1,42 +1,33 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const rutaUsuarios = path.join(__dirname, '../data/usuarios.json');
+import Usuario from '../models/Usuario.js';
+import bcrypt from 'bcrypt';
 
 export const mostrarLogin = (req, res) => {
   res.render('login', { error: null });
 };
 
-export const procesarLogin = (req, res) => {
-  const { correo, contraseña } = req.body;
-
-  fs.readFile(rutaUsuarios, 'utf-8', (err, data) => {
-    if (err) {
-      console.error('❌ Error al leer usuarios.json:', err);
-      return res.status(500).send('Error interno del servidor');
+export const procesarLogin = async (req, res) => {
+  const { correo, password } = req.body;
+  try {
+    const usuario = await Usuario.findOne({ correo });
+    if (!usuario) {
+      return res.render('login', { error: 'Usuario no encontrado' });
     }
-
-    let usuarios;
-    try {
-      usuarios = JSON.parse(data);
-    } catch (parseErr) {
-      console.error('❌ Error al parsear usuarios.json:', parseErr);
-      return res.status(500).send('Error en los datos de usuario');
+    if (!usuario.password || !password) {
+      return res.render('login', { error: 'Datos incompletos para autenticación' });
     }
-
-    const usuarioEncontrado = usuarios.find(u => u.correo === correo && u.contraseña === contraseña);
-
-    if (usuarioEncontrado) {
-      req.session.usuario = usuarioEncontrado.correo;
-      req.session.mensaje = '¡Bienvenido!';
-      console.log('✅ Sesión iniciada para:', req.session.usuario);
-      return res.redirect('/productos');
-    } else {
-      console.warn('🚫 Credenciales inválidas:', correo);
-      res.render('login', { error: 'Correo o contraseña incorrectos' });
+    const esValido = await bcrypt.compare(password, usuario.password);
+    if (!esValido) {
+      return res.render('login', { error: 'Contraseña incorrecta' });
     }
-  });
+    req.session.usuario = {
+      id: usuario._id,
+      nombre: usuario.nombre,
+      correo: usuario.correo
+    };
+    req.session.mensaje = '¡Bienvenido!';
+    res.redirect('/productos');
+  } catch (err) {
+    console.error('❌ Error en el servidor:', err);
+    res.render('login', { error: 'Error en el servidor' });
+  }
 };

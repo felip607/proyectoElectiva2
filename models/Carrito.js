@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const carritoSchema = new mongoose.Schema({
-  usuarioId: String,
-  productos: [
-    {
-      productoId: mongoose.Schema.Types.ObjectId,
-      cantidad: Number
-    }
-  ]
+const itemSchema = new mongoose.Schema({
+  producto: { type: mongoose.Schema.Types.ObjectId, ref: 'Producto', required: true },
+  cantidad: { type: Number, required: true, default: 1 }
 });
 
-module.exports = mongoose.model('Carrito', carritoSchema);
+const carritoSchema = new mongoose.Schema({
+  usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true, unique: true },
+  items: [itemSchema]
+});
+
+export default mongoose.model('Carrito', carritoSchema);
