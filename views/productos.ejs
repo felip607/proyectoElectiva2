@@ -135,9 +135,14 @@
 <body>
   <div class="top-bar">
     <a href="/carrito"><button class="carrito-btn">🛒 Ver Carrito</button></a>
-    <form action="/logout" method="POST" style="margin:0;">
-      <button type="submit" class="logout-btn">Cerrar sesión</button>
-    </form>
+    <div>
+      <a href="/productos/crear">
+        <button class="carrito-btn" style="background:#2980b9;margin-right:10px;">➕ Crear Producto</button>
+      </a>
+      <form action="/logout" method="POST" style="display:inline;">
+        <button type="submit" class="logout-btn">Cerrar sesión</button>
+      </form>
+    </div>
   </div>
 
   <div class="bienvenida">
@@ -161,6 +166,11 @@
             <input type="hidden" name="id" value="<%= p._id %>">
             <input type="number" name="cantidad" value="1" min="1">
             <button type="submit">Agregar al 🛒</button>
+          </form>
+          <form action="/productos/eliminar/<%= p._id %>" method="POST" style="margin-top:8px;display:inline;">
+            <button type="submit" style="background:#e74c3c;color:#fff;border:none;padding:7px 15px;border-radius:5px;cursor:pointer;">
+              🗑️ Eliminar
+            </button>
           </form>
         </div>
       <% }) %>

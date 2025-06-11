@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Crear Producto</title>
+  <link rel="stylesheet" href="/estilos.css">
+</head>
+<body>
+  <div class="login-body">
+    <div class="login-container">
+      <h1>Crear nuevo producto</h1>
+      <% if (error) { %>
+        <p style="color: red;"><%= error %></p>
+      <% } %>
+      <% if (mensaje) { %>
+        <p style="color: green;"><%= mensaje %></p>
+      <% } %>
+      <form action="/productos/crear" method="POST">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" required><br><br>
+
+        <label for="precio">Precio:</label>
+        <input type="number" name="precio" required><br><br>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea name="descripcion" required></textarea><br><br>
+
+        <label for="imagen">URL de la imagen:</label>
+        <input type="url" name="imagen" required><br><br>
+
+        <button type="submit">Crear producto</button>
+      </form>
+      <br>
+      <a href="/productos">Volver al catálogo</a>
+    </div>
+  </div>
+</body>
+</html>

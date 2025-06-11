@@ -24,7 +24,7 @@ export const generarFactura = async (req, res) => {
   doc.pipe(res);
 
   doc.font('Helvetica');
-  doc.fontSize(20).text('Factura de compra', { align: 'center' });
+  doc.fontSize(20).text('Factura de compra Decoraciones HyH', { align: 'center' });
   doc.moveDown(1);
 
   // Encabezados de columna

@@ -1,22 +1,6 @@
 import Producto from '../models/Producto.js';
 
-// Obtener y mostrar productos
-export const obtenerProductos = (req, res, mensaje = null) => {
-  Producto.find()
-    .then(productos => {
-      res.render('productos', {
-        productos,
-        usuario: req.session.usuario ? req.session.usuario.nombre : '',
-        mensaje
-      });
-    })
-    .catch(err => {
-      console.error('❌ Error al obtener productos:', err);
-      res.status(500).send('Error al obtener productos');
-    });
-};
-
-// Si necesitas agregar aquí los controladores de creación, puedes hacerlo así:
+// Controlador ejemplo (controllers/productoController.js)
 export const mostrarCrearProducto = (req, res) => {
   res.render('crearProducto', { error: null, mensaje: null });
 };

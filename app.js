@@ -6,10 +6,12 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import dotenv from 'dotenv';
 
-import { obtenerProductos } from './controllers/productoController.js';
+import { obtenerProductos, mostrarCrearProducto, crearProducto } from './controllers/productoController.js';
 import { mostrarLogin, procesarLogin } from './controllers/authController.js';
 import { mostrarRegistro, procesarRegistro } from './controllers/RegistroController.js';
 import carritoRoutes from './routes/carritoRoutes.js';
+import crearRoutes from './routes/crearRoutes.js';
+import Producto from './models/Producto.js';
 
 dotenv.config();
 
@@ -57,8 +59,40 @@ app.get('/productos', (req, res) => {
   }
 });
 
+// 👉 Sección para crear productos (solo accesible si hay sesión)
+app.get('/productos/crear', (req, res) => {
+  if (req.session.usuario) {
+    mostrarCrearProducto(req, res);
+  } else {
+    res.redirect('/login');
+  }
+});
+app.post('/productos/crear', (req, res) => {
+  if (req.session.usuario) {
+    crearProducto(req, res);
+  } else {
+    res.redirect('/login');
+  }
+});
+
+// Eliminar producto (solo si hay sesión)
+app.post('/productos/eliminar/:id', async (req, res) => {
+  if (req.session.usuario) {
+    try {
+      await Producto.findByIdAndDelete(req.params.id);
+      req.session.mensaje = 'Producto eliminado correctamente';
+    } catch (err) {
+      req.session.mensaje = 'Error al eliminar producto';
+    }
+    res.redirect('/productos');
+  } else {
+    res.redirect('/login');
+  }
+});
+
 // 🛒 Rutas del carrito
 app.use('/carrito', carritoRoutes);
+app.use('/', crearRoutes);
 
 // 🔒 Cerrar sesión (GET y POST)
 app.get('/logout', (req, res) => {
